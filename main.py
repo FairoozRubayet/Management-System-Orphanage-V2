@@ -28,6 +28,14 @@ class Staff(Person):
     def display_info(self):
         print(f"Staff: {self.name}, Age: {self.age}, Position: {self.position}")
 
+class Volunteer(Person):
+    def __init__(self, name, age, role):
+        super().__init__(name, age)
+        self.role = role
+
+    def display_info(self):
+        print(f"Volunteer: {self.name}, Age: {self.age}, Role: {self.role}")
+
 class Orphanage:
     def __init__(self):
         self.children = []
@@ -58,6 +66,7 @@ if __name__ == "__main__":
     orphanage.admit_child(child1)
     orphanage.admit_child(child2)
     orphanage.hire_staff(staff1)
-
+    orphanage.admit_person(volunteer1)
+    
     orphanage.display_orphanage_info()
 
