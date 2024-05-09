@@ -36,6 +36,18 @@ class Volunteer(Person):
     def display_info(self):
         print(f"Volunteer: {self.name}, Age: {self.age}, Role: {self.role}")
 
+class PersonFactory:
+    @staticmethod
+    def create_person(person_type, name, age, **kwargs):
+        if person_type == "child":
+            return Child(name, age, kwargs.get("sponsor"))
+        elif person_type == "staff":
+            return Staff(name, age, kwargs.get("position"))
+        elif person_type == "volunteer":
+            return Volunteer(name, age, kwargs.get("role"))
+        else:
+            raise ValueError("Invalid person type")
+            
 class Orphanage:
     def __init__(self):
         self.children = []
