@@ -68,17 +68,42 @@ class Orphanage:
         for staff in self.staffs:
             staff.display_info()
 
+def create_person_menu():
+    print("Choose a person to create:")
+    print("1. Child")
+    print("2. Staff")
+    print("3. Volunteer")
+    choice = input("Enter your choice (1/2/3): ")
+
+    if choice == "1":
+        name = input("Enter name for the Child: ")
+        age = int(input("Enter age for the Child: "))
+        sponsor = input("Enter sponsor for the Child (leave blank if none): ")
+        return Child(name, age, sponsor)
+    elif choice == "2":
+        name = input("Enter name for the Staff: ")
+        age = int(input("Enter age for the Staff: "))
+        position = input("Enter position for the Staff: ")
+        return Staff(name, age, position)
+    elif choice == "3":
+        name = input("Enter name for the Volunteer: ")
+        age = int(input("Enter age for the Volunteer: "))
+        role = input("Enter role for the Volunteer: ")
+        return Volunteer(name, age, role)
+    else:
+        print("Invalid choice!")
+        return None
+
 if __name__ == "__main__":
     orphanage = Orphanage()
 
-    child1 = Child("John", 8)
-    child2 = Child("Alice", 7, "XYZ Foundation")
-    staff1 = Staff("Emily", 30, "Nurse")
+    while True:
+        person = create_person_menu()
+        if person:
+            orphanage.admit_person(person)
+        
+        another = input("Do you want to create another person? (yes/no): ")
+        if another.lower() != "yes":
+            break
 
-    orphanage.admit_child(child1)
-    orphanage.admit_child(child2)
-    orphanage.hire_staff(staff1)
-    orphanage.admit_person(volunteer1)
-    
     orphanage.display_orphanage_info()
-
