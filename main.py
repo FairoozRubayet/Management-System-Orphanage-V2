@@ -93,6 +93,17 @@ def create_person_menu():
     else:
         print("Invalid choice!")
         return None
+def write_to_file(orphanage, filename):
+    with open(filename, "w") as file:
+        for person in orphanage.people:
+            if isinstance(person, Child):
+                file.write(f"Child,{person.name},{person.age},{person.sponsor}\n")
+            elif isinstance(person, Staff):
+                file.write(f"Staff,{person.name},{person.age},{person.position}\n")
+            elif isinstance(person, Volunteer):
+                file.write(f"Volunteer,{person.name},{person.age},{person.role}\n")
+            else:
+                print(f"Unknown person type: {type(person)}")
 
 if __name__ == "__main__":
     orphanage = Orphanage()
