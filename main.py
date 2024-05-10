@@ -11,6 +11,7 @@ class Orphanage:
             print("|||| Welcome to the Orphanage management system: ||||")
             func(*args, **kwargs)
             print("~ Operation Executed! ~")
+
         return wrapper
 
     @decoratorMethod
@@ -18,6 +19,37 @@ class Orphanage:
         print("Orphanage Information:")
         for person in self.people:
             person.display_info()
+
+
+class Child:
+    def __init__(self, name, age, sponsor=None):
+        self.name = name
+        self.age = age
+        self.sponsor = sponsor
+
+    def display_info(self):
+        print(f"Name: {self.name}, Age: {self.age}, Sponsor: {self.sponsor}")
+
+
+class Staff:
+    def __init__(self, name, age, position):
+        self.name = name
+        self.age = age
+        self.position = position
+
+    def display_info(self):
+        print(f"Name: {self.name}, Age: {self.age}, Position: {self.position}")
+
+
+class Volunteer:
+    def __init__(self, name, age, role):
+        self.name = name
+        self.age = age
+        self.role = role
+
+    def display_info(self):
+        print(f"Name: {self.name}, Age: {self.age}, Role: {self.role}")
+
 
 def create_person_menu():
     print("Choose a person to create:")
@@ -45,6 +77,7 @@ def create_person_menu():
         print("Invalid choice!")
         return None
 
+
 def write_to_file(orphanage, filename):
     with open(filename, "w") as file:
         for person in orphanage.people:
@@ -57,13 +90,16 @@ def write_to_file(orphanage, filename):
             else:
                 print(f"Unknown person type: {type(person)}")
 
+
 def read_from_file(filename):
     orphanage = Orphanage()
     with open(filename, "r") as file:
         for line in file:
             data = line.strip().split(",")
             if data[0] == "Child":
-                orphanage.admit_person(Child(data[1], int(data[2]), data[3] if len(data) > 3 else None))
+                orphanage.admit_person(
+                    Child(data[1], int(data[2]), data[3] if len(data) > 3 else None)
+                )
             elif data[0] == "Staff":
                 orphanage.admit_person(Staff(data[1], int(data[2]), data[3]))
             elif data[0] == "Volunteer":
@@ -72,6 +108,7 @@ def read_from_file(filename):
                 print(f"Unknown person type: {data[0]}")
     return orphanage
 
+
 if __name__ == "__main__":
     orphanage = Orphanage()
 
@@ -79,16 +116,16 @@ if __name__ == "__main__":
         person = create_person_menu()
         if person:
             orphanage.admit_person(person)
-        
+
         another = input("Do you want to create another person? (yes/no): ")
         if another.lower() != "yes":
             break
 
     orphanage.display_orphanage_info()
 
-    filename = input("Please enter the filename here :")
+    filename = input("Please enter the filename here: ")
     write_to_file(orphanage, filename)
-    print("Data written to",filename,".txt file successfully")
+    print("Data written to ",filename,".txt file successfully")
 
     orphanage_from_file = read_from_file(filename)
     orphanage_from_file.display_orphanage_info()
