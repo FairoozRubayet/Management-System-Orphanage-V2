@@ -105,6 +105,23 @@ def write_to_file(orphanage, filename):
             else:
                 print(f"Unknown person type: {type(person)}")
 
+
+def read_from_file(filename):
+    orphanage = Orphanage()
+    with open(filename, "r") as file:
+        for line in file:
+            data = line.strip().split(",")
+            if data[0] == "Child":
+                orphanage.admit_person(Child(data[1], int(data[2]), data[3] if len(data) > 3 else None))
+            elif data[0] == "Staff":
+                orphanage.admit_person(Staff(data[1], int(data[2]), data[3]))
+            elif data[0] == "Volunteer":
+                orphanage.admit_person(Volunteer(data[1], int(data[2]), data[3]))
+            else:
+                print(f"Unknown person type: {data[0]}")
+    return orphanage
+
+
 if __name__ == "__main__":
     orphanage = Orphanage()
 
