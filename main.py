@@ -1,3 +1,5 @@
+import unittest
+
 class Orphanage:
     def __init__(self):
         self.people = []
@@ -109,6 +111,26 @@ def read_from_file(filename):
     return orphanage
 
 
+class TestOrphanage(unittest.TestCase):
+    def test_child_creation(self):
+        child = Child("John", 10, "ABC Foundation")
+        self.assertEqual(child.name, "John")
+        self.assertEqual(child.age, 10)
+        self.assertEqual(child.sponsor, "ABC Foundation")
+
+    def test_staff_creation(self):
+        staff = Staff("Jane", 30, "Manager")
+        self.assertEqual(staff.name, "Jane")
+        self.assertEqual(staff.age, 30)
+        self.assertEqual(staff.position, "Manager")
+
+    def test_volunteer_creation(self):
+        volunteer = Volunteer("Alice", 25, "Tutor")
+        self.assertEqual(volunteer.name, "Alice")
+        self.assertEqual(volunteer.age, 25)
+        self.assertEqual(volunteer.role, "Tutor")
+
+
 if __name__ == "__main__":
     orphanage = Orphanage()
 
@@ -125,7 +147,9 @@ if __name__ == "__main__":
 
     filename = input("Please enter the filename here: ")
     write_to_file(orphanage, filename)
-    print("Data written to ",filename,".txt file successfully")
+    print("Data written to", filename, ".txt file successfully")
 
     orphanage_from_file = read_from_file(filename)
     orphanage_from_file.display_orphanage_info()
+
+    unittest.main()
