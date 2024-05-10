@@ -1,73 +1,23 @@
-from abc import ABC, abstractmethod
-
-class Person(ABC):
-    def __init__(self, name, age):
-        self.name = name
-        self.age = age
-
-    @abstractmethod
-    def display_info(self):
-        pass
-
-class Child(Person):
-    def __init__(self, name, age, sponsor=None):
-        super().__init__(name, age)
-        self.sponsor = sponsor
-
-    def display_info(self):
-        if self.sponsor:
-            print(f"Child: {self.name}, Age: {self.age}, Sponsored by: {self.sponsor}")
-        else:
-            print(f"Child: {self.name}, Age: {self.age}")
-
-class Staff(Person):
-    def __init__(self, name, age, position):
-        super().__init__(name, age)
-        self.position = position
-
-    def display_info(self):
-        print(f"Staff: {self.name}, Age: {self.age}, Position: {self.position}")
-        
-
-class Volunteer(Person):
-    def __init__(self, name, age, role):
-        super().__init__(name, age)
-        self.role = role
-
-    def display_info(self):
-        print(f"Volunteer: {self.name}, Age: {self.age}, Role: {self.role}")
-
-class PersonFactory:
-    @staticmethod
-    def create_person(person_type, name, age, **kwargs):
-        if person_type == "child":
-            return Child(name, age, kwargs.get("sponsor"))
-        elif person_type == "staff":
-            return Staff(name, age, kwargs.get("position"))
-        elif person_type == "volunteer":
-            return Volunteer(name, age, kwargs.get("role"))
-        else:
-            raise ValueError("Invalid person type")
-            
 class Orphanage:
     def __init__(self):
-        self.children = []
-        self.staffs = []
+        self.people = []
 
-    def admit_child(self, child):
-        self.children.append(child)
+    def admit_person(self, person):
+        self.people.append(person)
 
-    def hire_staff(self, staff):
-        self.staffs.append(staff)
+    @staticmethod
+    def decoratorMethod(func):
+        def wrapper(*args, **kwargs):
+            print("|||| Welcome to the Orphanage management system: ||||")
+            func(*args, **kwargs)
+            print("~ Operation Executed! ~")
+        return wrapper
 
+    @decoratorMethod
     def display_orphanage_info(self):
         print("Orphanage Information:")
-        print("Children:")
-        for child in self.children:
-            child.display_info()
-        print("Staffs:")
-        for staff in self.staffs:
-            staff.display_info()
+        for person in self.people:
+            person.display_info()
 
 def create_person_menu():
     print("Choose a person to create:")
@@ -94,6 +44,7 @@ def create_person_menu():
     else:
         print("Invalid choice!")
         return None
+
 def write_to_file(orphanage, filename):
     with open(filename, "w") as file:
         for person in orphanage.people:
@@ -105,7 +56,6 @@ def write_to_file(orphanage, filename):
                 file.write(f"Volunteer,{person.name},{person.age},{person.role}\n")
             else:
                 print(f"Unknown person type: {type(person)}")
-
 
 def read_from_file(filename):
     orphanage = Orphanage()
@@ -122,7 +72,6 @@ def read_from_file(filename):
                 print(f"Unknown person type: {data[0]}")
     return orphanage
 
-
 if __name__ == "__main__":
     orphanage = Orphanage()
 
@@ -136,7 +85,7 @@ if __name__ == "__main__":
             break
 
     orphanage.display_orphanage_info()
-    
+
     filename = input("Please enter the filename here :")
     write_to_file(orphanage, filename)
     print("Data written to",filename,".txt file successfully")
