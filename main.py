@@ -27,6 +27,7 @@ class Staff(Person):
 
     def display_info(self):
         print(f"Staff: {self.name}, Age: {self.age}, Position: {self.position}")
+        
 
 class Volunteer(Person):
     def __init__(self, name, age, role):
@@ -135,3 +136,10 @@ if __name__ == "__main__":
             break
 
     orphanage.display_orphanage_info()
+    
+    filename = input("Please enter the filename here :")
+    write_to_file(orphanage, filename)
+    print("Data written to",filename,".txt file successfully")
+
+    orphanage_from_file = read_from_file(filename)
+    orphanage_from_file.display_orphanage_info()
